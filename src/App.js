@@ -1,6 +1,7 @@
 import React, { Component, component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { nanoid } from "nanoid";
 
 class App extends Component {
   constructor() {
@@ -17,6 +18,14 @@ class App extends Component {
     this.state.isClicked
       ? this.setState({ isClicked: false })
       : this.setState({ isClicked: true });
+
+    const filteredTodo = this.state.listofTodos.filter(
+      (todo) => todo.id !== id
+    );
+
+    this.setState({
+      todo: filteredTodo,
+    });
   };
 
   handleChange = (e) => {
@@ -26,7 +35,10 @@ class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.setState({
-      listofTodos: [...this.state.listofTodos, this.state.inputValue],
+      listofTodos: [
+        ...this.state.listofTodos,
+        { id: nanoid(), listofTodos: this.state.inputValue },
+      ],
     });
     this.setState.inputValue({ inputValue: "" });
   };
@@ -36,6 +48,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <h2> To Do List</h2>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
@@ -55,7 +68,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            {/* To Do list */}
           </a>
         </header>
       </div>
